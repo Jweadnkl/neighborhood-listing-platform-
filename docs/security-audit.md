@@ -1,11 +1,11 @@
 # Row-Level Security (RLS) Audit Matrix
 
-| Role / User Scenario | Target Action | Expected Result | Actual Result / Verification Status |
+| Role / User | Target Table / Operation | Expected Result | Actual Test Outcome |
 | :--- | :--- | :--- | :--- |
-| **Anonymous / Public** | Read approved listings | PASS (Allowed) | Verified |
-| **Anonymous / Public** | Read draft listings | FAIL (Denied) | Verified |
-| **Property Owner A** | Update Owner A draft listing | PASS (Allowed) | Verified |
-| **Property Owner A** | Update Owner B listing | FAIL (Denied) | Verified |
-| **Inquirer / Visitor** | Submit a new inquiry | PASS (Allowed) | Verified |
-| **Inquirer / Visitor** | Select/read existing inquiries | FAIL (Denied) | Verified |
-| **Platform Admin** | Read/Write across all schemas | PASS (Allowed) | Verified |
+| **Anonymous / Public** | SELECT `properties` where status = 'approved' | PASS | PASS |
+| **Anonymous / Public** | SELECT `properties` where status = 'draft' | FAIL / DENIED | PASS |
+| **Property Owner** | UPDATE own draft listing (`status = 'draft'`) | PASS | PASS |
+| **Property Owner** | UPDATE other user's listing | FAIL / DENIED | PASS |
+| **Inquirer** | INSERT into `inquiries` | PASS | PASS |
+| **Inquirer** | SELECT from `inquiries` | FAIL / DENIED | PASS |
+| **Platform Admin** | SELECT / UPDATE / DELETE across all tables | PASS | PASS |
